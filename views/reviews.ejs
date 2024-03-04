@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="maincolumns columns is-desktop is-vcentered">
+        <div class="column is-10 is-offset-1 notification is-info is-light box container">
+          <div class="title">
+            Reviews for
+            <th><%= name.name %></th>
+          </div>
+          <% if (locals.restaurant) { %>
+          <div class="table-container">
+            <table class="table is-bordered is-hoverable is-striped is-narrow">
+              <thead>
+                <tr>
+                  <!-- <th> # </th> -->
+                  <th>Review</th>
+                  <th>By</th>
+                  <th>Rating</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <% let i=0; %> <% for(i=0; i < restaurant.length; i++) { %>
+              <tr>
+                <td><%= restaurant[i].details %></td>
+                <td><%= restaurant[i].reviewer_name %></td>
+                <td><%= restaurant[i].rating %></td>
+                <td>
+                  <a href="/deleteReview?id=<%= restaurant[i].review_id %>">
+                    <span class="icon is-small">  <i class="fas fa-trash"></i> </span
+                  ></a>
+                </td>
+              </tr>
+              <% } %>
+              <tfoot>
+                <tr>
+                  <td colspan="4">There are <%= i %> reviews.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <% } %>
+
+          <form action="/addReview" method="post">
+            <input type="hidden" name="restaurant_id" value="<%= id %>">
+            
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Add New Review</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="name" class="input" type="text" placeholder="Your Name" />
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded">
+                    <textarea name="review" class="textarea" placeholder="Review"></textarea>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="rating" class="input" type="number" placeholder="Rating (0 to 5)" min="0" max="5"/>
+                  </p>
+                </div>
+                <div class="field">
+                  <button class="button is-link">
+                    <span>Add Review</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-comment"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
