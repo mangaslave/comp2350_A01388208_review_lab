@@ -109,9 +109,9 @@ async function addReview(postData) {
   `;
     let params = {
       restaurant_id: postData.restaurant_id,
-      name: postData.name,
-      review: postData.review,
-      rating: postData.rating
+      reviewer_name: postData.reviewer_name,
+      details: postData.details,
+      rating: postData.rating,
     };
     console.log(sqlInsertReview);
     try {

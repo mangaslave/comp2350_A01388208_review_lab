@@ -58,7 +58,7 @@ router.get("/review", async (req, res) => {
   try {
     const restaurant = await dbModel.getRestaurantById(restaurantId);
     const result = await dbModel.getAllReviews(restaurantId);
-    res.render("reviews", { restaurant: result, name: restaurant, id: restaurantId });
+    res.render("reviews", { review: result, name: restaurant, id: restaurantId });
 
     console.log(result);
   } catch (err) {
@@ -72,7 +72,6 @@ router.get("/deleteReview", async (req, res) => {
   let restaurantID = req.query.id;
   if (restaurantID) {
     const success = await dbModel.deleteReview(restaurantID);
-    console.log("DELETE PLEASEE!!!!!!")
     if (success) {
       res.redirect("/");
     } else {
@@ -87,9 +86,13 @@ router.get("/deleteReview", async (req, res) => {
 
 router.post("/addReview", async (req, res) => {
   try {
-    console.log(req.body)
-    const success = await dbModel.addReview(req.body);
-    if (success) {
+    const restaurant_id = req.query.id;
+    const { details, reviewer_name, rating } = req.body;
+    const result = {restaurant_id, details, reviewer_name, rating}
+    console.log(result)
+
+    const reviewAdd = await dbModel.addReview(result);
+    if (reviewAdd) {
       res.redirect("/");
     } else {
       res.render("error", { message: "Error writing to MySQL" });
